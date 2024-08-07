@@ -4,21 +4,60 @@
     <head>
         <title>price locator</title>
         <script src="scanner.js"></script>
+        <style>
+            .wrapper {
+                display: flex;
+                min-height: 200px;
+                border: solid green 2px;
+                justify-content: center;
+                flex-direction: row;
+            }
+            .left-box {
+                justify-content: between;
+                flex-direction: row;
+                border: solid red 2px;
+            }
+            .mid-box {
+                width: 30px;
+                flex-direction: row;
+                border: solid yellow 2px;
+            }
+            .right-box {
+                display: flex;
+                flex-direction: column;
+                border: solid blue 2px;
+                justify-content: space-evenly;
+            }
+            .res-box{
+                border: solid black 2px;
+            }
+        </style>
     </head>
 
-    <body style="text-align: center">
-        <input type="button" value="Front" style="font-size : 40px; width: 150px; height: 100%;" onclick="changeValue('user')"> 
-        <input type="button" value="Back" style="font-size : 40px; width: 150px; height: 100%;" onclick="changeValue('environment')">
-        <input type="hidden" id="cameraSelector" value="user" />
+    <input type="hidden" id="cameraSelector" value="user" />
 
-        &nbsp;&nbsp;
+    <div class="wrapper">
+        <div class="left-box">
+            <canvas id="canvas" width="640" height="480"></canvas>
+        </div>
+        <div class="mid-box"> </div>
+        <div class="right-box">
+            <div>
+                <input type="button" value="Front" style="font-size : 40px; width: 150px; height: 100%;" onclick="changeValue('user')"> 
+            </div>
+            <div>
+                <input type="button" value="Back" style="font-size : 40px; width: 150px; height: 100%;" onclick="changeValue('environment')">
+            </div>
+        </div>
+    </div>
+    <div id="result" class="res-box"> RESULT</div>
+
+
+
+
 
         <br /><br />
 
-        <canvas id="canvas" width="640" height="480"></canvas>
-        <br /><br />
-
-        <div id="result"></div>
 
         <script>
             var zxing = ZXing().then(function (instance) {
