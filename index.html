@@ -3,17 +3,10 @@
 
 <head>
 	<title>price locator</title>
-	<link rel="shortcut icon" href="#" />
 	<script src="scanner.js"></script>
 </head>
 
 <body style="text-align: center">
-	<h2>zxing-cpp/wasm live demo</h2>
-	<p>
-		This is a simple demo of the wasm wrapper of <a href="https://github.com/zxing-cpp/zxing-cpp">zxing-cpp</a>
-		scanning for barcodes in a live video stream.
-	</p>
-
 	Camera:
 	<select id="cameraSelector">
 		<option value="user">Front Camera</option>
@@ -124,8 +117,8 @@
 			if (code.format) {
 				resultElement.innerText = code.format + ": " + escapeTags(code.text);
 				drawResult(code)
-			} else {
-				resultElement.innerText = "No barcode found";
+			//} else {
+				//resultElement.innerText = "No barcode found";
 			}
 			requestAnimationFrame(processFrame);
 		};
