@@ -7,13 +7,8 @@
     </head>
 
     <body style="text-align: center">
-        <script>
-            function changeValue(o){
-                document.getElementById('cameraSelector').value=o;
-            }
-        </script>
-        <input type="button" value="Front" style="font-size : 20px; width: 150px; height: 100%;" onclick="changeValue('user')"> 
-        <input type="button" value="Back" style="font-size : 20px; width: 150px; height: 100%;" onclick="changeValue('environment')">
+        <input type="button" value="Front" style="font-size : 40px; width: 150px; height: 100%;" onclick="changeValue('user')"> 
+        <input type="button" value="Back" style="font-size : 40px; width: 150px; height: 100%;" onclick="changeValue('environment')">
         <input type="hidden" id="cameraSelector" value="user" />
 
         &nbsp;&nbsp;
@@ -108,8 +103,13 @@
             };
 
             cameraSelector.addEventListener("change", function () {
+                alert(this.value);
                 updateVideoStream(this.value);
             });
+            function changeValue(o){
+                updateVideoStream(o);
+                document.getElementById('cameraSelector').value=o;
+            }
 
             updateVideoStream();
         </script>
