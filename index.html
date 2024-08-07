@@ -124,8 +124,8 @@
 			if (code.format) {
 				resultElement.innerText = code.format + ": " + escapeTags(code.text);
 				drawResult(code)
-			//} else {
-				//resultElement.innerText = "No barcode found";
+			} else {
+				resultElement.innerText = "No barcode found";
 			}
 			requestAnimationFrame(processFrame);
 		};
