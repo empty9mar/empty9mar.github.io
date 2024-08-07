@@ -1,151 +1,118 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<title>price locator</title>
-	<script src="scanner.js"></script>
-</head>
+    <head>
+        <title>price locator</title>
+        <script src="scanner.js"></script>
+    </head>
 
-<body style="text-align: center">
-	Camera:
-	<select id="cameraSelector">
-		<option value="user">Front Camera</option>
-		<option value="environment">Back Camera</option>
-	</select>
-	&nbsp;&nbsp;
+    <body style="text-align: center">
+        <script>
+            function changeValue(o){
+                document.getElementById('cameraSelector').value=o;
+            }
+        </script>
+        <input type="button" value="Front" style="font-size : 20px; width: 150px; height: 100%;" onclick="changeValue('user')"> 
+        <input type="button" value="Back" style="font-size : 20px; width: 150px; height: 100%;" onclick="changeValue('environment')">
+        <input type="hidden" id="cameraSelector" value="user" />
 
-	Format:
-	<select id="format">
-		<option value="" selected="">Any</option>
-		<option value="Aztec">Aztec</option>
-		<option value="Code39">Codabar</option>
-		<option value="CODE_39">Code39</option>
-		<option value="Code93">Code93</option>
-		<option value="Code128">Code128</option>
-		<option value="DataMatrix">DataMatrix</option>
-		<option value="DataBar">DataBar</option>
-		<option value="DataBarExpanded">DataBarExpanded</option>
-		<option value="DXFilmEdge">DXFilmEdge</option>
-		<option value="EAN8">EAN-8</option>
-		<option value="EAN13">EAN-13</option>
-		<option value="ITF">ITF</option>
-		<option value="PDF417">PDF417</option>
-		<option value="QRCode">QRCode</option>
-		<option value="MicroQRCode">Micro QRCode</option>
-		<option value="RMQRCode">rMQR Code</option>
-		<option value="UPCA">UPC-A</option>
-		<option value="UPCE">UPC-E</option>
-		<option value="LinearCodes">Linear Codes</option>
-		<option value="MatrixCodes">Matrix Codes</option>
-	</select>
-	&nbsp;&nbsp;
+        &nbsp;&nbsp;
 
-	Mode:
-	<select id="mode">
-		<option value="true" selected="">Normal</option>
-		<option value="false">Fast</option>
-	</select>
-	<br /><br />
+        <br /><br />
 
-	<canvas id="canvas" width="640" height="480"></canvas>
-	<br /><br />
+        <canvas id="canvas" width="640" height="480"></canvas>
+        <br /><br />
 
-	<div id="result"></div>
+        <div id="result"></div>
 
-	<script>
-		var zxing = ZXing().then(function (instance) {
-			zxing = instance; // this line is supposedly not required but with current emsdk it is :-/
-		});
+        <script>
+            var zxing = ZXing().then(function (instance) {
+                zxing = instance; // this line is supposedly not required but with current emsdk it is :-/
+            });
 
-		const cameraSelector = document.getElementById("cameraSelector");
-		const format = document.getElementById("format");
-		const mode = document.getElementById("mode");
-		const canvas = document.getElementById("canvas");
-		const resultElement = document.getElementById("result");
+            const cameraSelector = document.getElementById("cameraSelector");
+            const mode = document.getElementById("mode");
+            const canvas = document.getElementById("canvas");
+            const resultElement = document.getElementById("result");
 
-		const ctx = canvas.getContext("2d", { willReadFrequently: true });
-		const video = document.createElement("video");
-		video.setAttribute("id", "video");
-		video.setAttribute("width", canvas.width);
-		video.setAttribute("height", canvas.height);
-		video.setAttribute("autoplay", "");
+            const ctx = canvas.getContext("2d", { willReadFrequently: true });
+            const video = document.createElement("video");
+            video.setAttribute("id", "video");
+            video.setAttribute("width", canvas.width);
+            video.setAttribute("height", canvas.height);
+            video.setAttribute("autoplay", "");
 
-		function readBarcodeFromCanvas(canvas, format, mode) {
-			var imgWidth = canvas.width;
-			var imgHeight = canvas.height;
-			var imageData = canvas.getContext('2d').getImageData(0, 0, imgWidth, imgHeight);
-			var sourceBuffer = imageData.data;
+            function readBarcodeFromCanvas(canvas) {
+                var imgWidth = canvas.width;
+                var imgHeight = canvas.height;
+                var imageData = canvas.getContext('2d').getImageData(0, 0, imgWidth, imgHeight);
+                var sourceBuffer = imageData.data;
 
-			if (zxing != null) {
-				var buffer = zxing._malloc(sourceBuffer.byteLength);
-				zxing.HEAPU8.set(sourceBuffer, buffer);
-				var result = zxing.readBarcodeFromPixmap(buffer, imgWidth, imgHeight, mode, format);
-				zxing._free(buffer);
-				return result;
-			} else {
-				return { error: "ZXing not yet initialized" };
-			}
-		}
+                if (zxing != null) {
+                    var buffer = zxing._malloc(sourceBuffer.byteLength);
+                    zxing.HEAPU8.set(sourceBuffer, buffer);
+                    var result = zxing.readBarcodeFromPixmap(buffer, imgWidth, imgHeight);
+                    zxing._free(buffer);
+                    return result;
+                } else {
+                    return { error: "ZXing not yet initialized" };
+                }
+            }
 
-		function drawResult(code) {
-			ctx.beginPath();
-			ctx.lineWidth = 4;
-			ctx.strokeStyle = "red";
-			// ctx.textAlign = "center";
-			// ctx.fillStyle = "#green"
-			// ctx.font = "25px Arial";
-			// ctx.fontWeight = "bold";
-			with (code.position) {
-				ctx.moveTo(topLeft.x, topLeft.y);
-				ctx.lineTo(topRight.x, topRight.y);
-				ctx.lineTo(bottomRight.x, bottomRight.y);
-				ctx.lineTo(bottomLeft.x, bottomLeft.y);
-				ctx.lineTo(topLeft.x, topLeft.y);
-				ctx.stroke();
-				// ctx.fillText(code.text, (topLeft.x + bottomRight.x) / 2, (topLeft.y + bottomRight.y) / 2);
-			}
-		}
+            function drawResult(code) {
+                ctx.beginPath();
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = "red";
+                with (code.position) {
+                    ctx.moveTo(topLeft.x, topLeft.y);
+                    ctx.lineTo(topRight.x, topRight.y);
+                    ctx.lineTo(bottomRight.x, bottomRight.y);
+                    ctx.lineTo(bottomLeft.x, bottomLeft.y);
+                    ctx.lineTo(topLeft.x, topLeft.y);
+                    ctx.stroke();
+                }
+            }
 
-		function escapeTags(htmlStr) {
-			return htmlStr.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-		}
+            function escapeTags(htmlStr) {
+                return htmlStr.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+            }
 
-		const processFrame = function () {
-			ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const processFrame = function () {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-			const code = readBarcodeFromCanvas(canvas, format.value, mode.value === 'true');
-			if (code.format) {
-				resultElement.innerText = code.format + ": " + escapeTags(code.text);
-				drawResult(code)
-			//} else {
-				//resultElement.innerText = "No barcode found";
-			}
-			requestAnimationFrame(processFrame);
-		};
+                const code = readBarcodeFromCanvas(canvas);
+                if (code.format) {
+                    resultElement.innerText = code.format + ": " + escapeTags(code.text);
+                    drawResult(code)
+                    //} else {
+                        //resultElement.innerText = "No barcode found";
+                    }
+                requestAnimationFrame(processFrame);
+            };
 
-		const updateVideoStream = function (deviceId) {
-			// To ensure the camera switch, it is advisable to free up the media resources
-			if (video.srcObject) video.srcObject.getTracks().forEach(track => track.stop());
+            const updateVideoStream = function (deviceId) {
+                // To ensure the camera switch, it is advisable to free up the media resources
+                if (video.srcObject) video.srcObject.getTracks().forEach(track => track.stop());
 
-			navigator.mediaDevices
-				.getUserMedia({ video: { facingMode: deviceId }, audio: false })
-				.then(function (stream) {
-					video.srcObject = stream;
-					video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
-					video.play();
-					processFrame();
-				})
-				.catch(function (error) {
-					console.error("Error accessing camera:", error);
-				});
-		};
+                navigator.mediaDevices
+                    .getUserMedia({ video: { facingMode: deviceId }, audio: false })
+                    .then(function (stream) {
+                        video.srcObject = stream;
+                        video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+                        video.play();
+                        processFrame();
+                    })
+                    .catch(function (error) {
+                        console.error("Error accessing camera:", error);
+                    });
+            };
 
-		cameraSelector.addEventListener("change", function () {
-			updateVideoStream(this.value);
-		});
+            cameraSelector.addEventListener("change", function () {
+                updateVideoStream(this.value);
+            });
 
-		updateVideoStream();
-	</script>
-</body>
+            updateVideoStream();
+        </script>
+    </body>
 
 </html>
