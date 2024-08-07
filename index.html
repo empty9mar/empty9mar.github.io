@@ -2,11 +2,17 @@
 <html>
 
 <head>
-	<title>scanner</title>
+	<title>price locator</title>
+	<link rel="shortcut icon" href="#" />
 	<script src="scanner.js"></script>
 </head>
 
 <body style="text-align: center">
+	<h2>zxing-cpp/wasm live demo</h2>
+	<p>
+		This is a simple demo of the wasm wrapper of <a href="https://github.com/zxing-cpp/zxing-cpp">zxing-cpp</a>
+		scanning for barcodes in a live video stream.
+	</p>
 
 	Camera:
 	<select id="cameraSelector">
@@ -14,7 +20,6 @@
 		<option value="environment">Back Camera</option>
 	</select>
 	&nbsp;&nbsp;
-
 
 	Format:
 	<select id="format">
