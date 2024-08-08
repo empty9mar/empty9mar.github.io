@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>scanner 268e64c</title>
+        <title>scanner 58b29ac</title>
         <script src="scanner.js"></script>
         <style>
             .wrapper {
@@ -34,8 +34,6 @@
         </style>
     </head>
 
-    <input type="hidden" id="cameraSelector" value="user" />
-
     <div class="wrapper">
         <div class="left-box">
             <canvas id="canvas" width="640" height="480"></canvas>
@@ -43,7 +41,7 @@
         <div class="mid-box"> </div>
         <div class="right-box">
             <div>
-                <input type="button" value="Front" style="font-size : 40px; width: 150px; height: 100%;" onclick="toggleValue()"> 
+                <input type="button" id="cameraSelector" value="Front" style="font-size : 40px; width: 150px; height: 100%;" onclick="toggleValue()"> 
             </div>
         </div>
     </div>
