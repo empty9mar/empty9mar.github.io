@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>scanner 8169490</title>
+        <title>scanner 268e64c</title>
         <script src="scanner.js"></script>
         <style>
             .wrapper {
@@ -43,10 +43,7 @@
         <div class="mid-box"> </div>
         <div class="right-box">
             <div>
-                <input type="button" value="Front" style="font-size : 40px; width: 150px; height: 100%;" onclick="changeValue('user')"> 
-            </div>
-            <div>
-                <input type="button" value="Back" style="font-size : 40px; width: 150px; height: 100%;" onclick="changeValue('environment')">
+                <input type="button" value="Front" style="font-size : 40px; width: 150px; height: 100%;" onclick="toggleValue()"> 
             </div>
         </div>
     </div>
@@ -141,13 +138,16 @@
                     });
             };
 
-            cameraSelector.addEventListener("change", function () {
-                alert(this.value);
-                updateVideoStream(this.value);
-            });
-            function changeValue(o){
-                updateVideoStream(o);
-                document.getElementById('cameraSelector').value=o;
+            function toggleValue(){
+                var cam = document.getElementById('cameraSelector').value;
+                if (cam == "Front") {
+                    updateVideoStream("environment");
+                    document.getElementById('cameraSelector').value = "Back";
+                }
+                if (cam == "Back") {
+                    updateVideoStream("user");
+                    document.getElementById('cameraSelector').value = "Front";
+                }
             }
 
             updateVideoStream();
