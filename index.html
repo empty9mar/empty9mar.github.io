@@ -1,59 +1,51 @@
 <!DOCTYPE html>
 <html>
 
+    <!--head{{{-->
     <head>
-        <title>scanner 58b29ac</title>
+        <title>scanner a4e8952</title>
         <script src="scanner.js"></script>
         <style>
-            .wrapper {
+            .space-between {
                 display: flex;
-                min-height: 200px;
-                border: solid green 2px;
+                border: 1px solid red;
+                justify-content: space-between;
+            }
+            .button-box {
+                display: flex;
+                border: 1px solid green;
+                align-items: center;
                 justify-content: center;
-                flex-direction: row;
             }
-            .left-box {
-                justify-content: between;
-                flex-direction: row;
-                border: solid red 2px;
-            }
-            .mid-box {
-                width: 30px;
-                flex-direction: row;
-                border: solid yellow 2px;
-            }
-            .right-box {
+            .canvas-box{
                 display: flex;
-                flex-direction: column;
-                border: solid blue 2px;
-                justify-content: space-evenly;
+                border: 1px solid blue;
+                justify-content: center;
+                margin-right: 30%;
             }
-            .res-box{
-                border: solid black 2px;
+            .result-box{
+                display: flex;
+                border: 1p solid yellow;
+                justify-content: center;
             }
         </style>
     </head>
+    <!--}}}-->
 
-    <div class="wrapper">
-        <div class="left-box">
-            <canvas id="canvas" width="640" height="480"></canvas>
-        </div>
-        <div class="mid-box"> </div>
-        <div class="right-box">
-            <div>
-                <input type="button" id="cameraSelector" value="Front" style="font-size : 40px; width: 150px; height: 100%;" onclick="toggleValue()"> 
+    <body>
+        <!--div{{{-->
+        <div class="space-between">
+            <div class="button-box">
+                <input type="button" id="cameraSelector" value="Front" style="font-size: 40px;" onclick="toggleValue()"> 
+            </div>
+            <div class="canvas-box">
+                <canvas id="canvas" width="640" height="480" style="border: solid pink 2px;"></canvas>
             </div>
         </div>
-    </div>
-    <div id="result" class="res-box">RESULT</div>
+        <div id="result" class="result-box"></div>
+        <!--}}}-->
 
-
-
-
-
-        <br /><br />
-
-
+        <!--script{{{-->
         <script>
             var zxing = ZXing().then(function (instance) {
                 zxing = instance; // this line is supposedly not required but with current emsdk it is :-/
@@ -114,8 +106,8 @@
                     resultElement.innerText = code.format + ": " + escapeTags(code.text);
                     drawResult(code)
                     //} else {
-                        //resultElement.innerText = "No barcode found";
-                    }
+                    //resultElement.innerText = "No barcode found";
+                }
                 requestAnimationFrame(processFrame);
             };
 
@@ -150,6 +142,6 @@
 
             updateVideoStream();
         </script>
+        <!--}}}-->
     </body>
-
 </html>
