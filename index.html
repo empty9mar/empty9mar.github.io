@@ -3,7 +3,7 @@
 
     <!--head{{{-->
     <head>
-        <title>scanner ce21863</title>
+        <title>scanner 12cf605</title>
         <script src="scanner.js"></script>
         <style>
             .space-between {
@@ -27,6 +27,7 @@
                 display: flex;
                 border: 1p solid yellow;
                 justify-content: center;
+                font-size: 30px;
             }
         </style>
     </head>
@@ -43,7 +44,7 @@
                 <canvas id="canvas" width="640" height="480" style="border: solid pink 2px;"></canvas>
             </div>
         </div>
-        <div id="result" class="result-box"></div>
+        <div id="result" class="result-box">result</div>
         <!--}}}-->
 
         <!--script{{{-->
@@ -104,7 +105,7 @@
 
                 const code = readBarcodeFromCanvas(canvas);
                 if (code.format) {
-                    resultElement.innerText = code.format + ": " + escapeTags(code.text);
+                    resultElement.innerText = escapeTags(code.text);
                     drawResult(code)
                     //} else {
                     //resultElement.innerText = "No barcode found";
